@@ -25,47 +25,47 @@ composer require jackmartin/ukrpochta
 # Методы API
 
 1. Создать адрес
-	* [createAddress](https://github.com/yurycooliq/UkrpochtaAPI#createaddressdata--array)
+	* [createAddress](#createAddress)
 2. Редактировать адрес
-	* [editAddress](https://github.com/yurycooliq/UkrpochtaAPI#editaddressid-data--array)
+	* [editAddress](#editAddress)
 3. Показать адрес по ID
-	* [getAddress](https://github.com/yurycooliq/UkrpochtaAPI#getaddressid)
+	* [getAddress](#getAddress)
 4. Создать нового клиента
-	* [createClient](https://github.com/yurycooliq/UkrpochtaAPI#createclienttoken-data--array)
+	* [createClient](#createClient)
 5. Редактировать клиента
-    * [editClient](https://github.com/yurycooliq/UkrpochtaAPI#editclientid-token-data--array)
+    * [editClient](#editClient)
 6. Получить список клиентов
-    * [clientsList](https://github.com/yurycooliq/UkrpochtaAPI#clientslisttoken)
+    * [clientsList](#clientsList)
 7. Получить клиента по ID или ExternalID
-    * [getClient](https://github.com/yurycooliq/UkrpochtaAPI#getclienttoken-id--0-extid--0-type--true)
+    * [getClient](#getClient)
 8. Создать группу отправлений
-    * [createGroup](https://github.com/yurycooliq/UkrpochtaAPI#creategroupdata--array)
+    * [createGroup](#createGroup)
 9. Редактирование группы отправлений
-    * [editGroup](https://github.com/yurycooliq/UkrpochtaAPI#editgrouptoken-id-data--array)
+    * [editGroup](#editGroup)
 10. Получить список групп отправлений
-    * [groupList](https://github.com/yurycooliq/UkrpochtaAPI#grouplisttoken)
+    * [groupList](#groupList)
 11. Получить группу отправлений по ID
-    * [getGroup](https://github.com/yurycooliq/UkrpochtaAPI#getgroupid)
+    * [getGroup](#getGroup)
 12. Создать новую посылку
-    * [createParcel](https://github.com/yurycooliq/UkrpochtaAPI#createparceltoken-data--array)
+    * [createParcel](#createParcel)
 13. Редактировать посылку
-    * [editParcel](https://github.com/yurycooliq/UkrpochtaAPI#editparcelid-token-data--array)
+    * [editParcel](#editParcel)
 14. Получить список почтовых отправлений
-    * [parcelList](https://github.com/yurycooliq/UkrpochtaAPI#parcellisttoken)
+    * [parcelList](#parcelList)
 15. Получить почтовое отправление по ID
-    * [getParcel](https://github.com/yurycooliq/UkrpochtaAPI#getparcelid-token-type--true)
+    * [getParcel](#getParcel)
 16. Удалить почтовое отправление с группы
-    * [delParcelGroup](https://github.com/yurycooliq/UkrpochtaAPI#delparcelgroupid-token)
+    * [delParcelGroup](#delParcelGroup)
 17. Создать форму в PDF формате
-    * [createForm](https://github.com/yurycooliq/UkrpochtaAPI#createformid-token-path-type--true)
+    * [createForm](#createForm103)
 18. Создать форму 103 в PDF формате
-    * [createForm103](https://github.com/yurycooliq/UkrpochtaAPI#createform103id-token-path)
+    * [createForm103](#createForm103)
 19. Стоимость доставки по Украине
-    * [deliveryPrice](#deliveryPrice-data--array)
+    * [deliveryPrice](#deliveryPrice)
 
 # Примеры
 
-### createAddress($data = array()) ###
+### [createAddress($data = array())](#createAddress) ###
 
 ```php
 <?php
@@ -74,7 +74,7 @@ use Ukrpochta\Pochta;
 include __DIR__ . '/vendor/autoload.php';
 $ukrpochta = new Pochta('API_KEY');
 
-$result = $ukrpochta->editAddress(123130, array(
+$result = $ukrpochta->createAddress(array(
     'postcode'        => '02099',
     'region'          => 'Полтавська',
     'district'        => 'Полтавський',
@@ -90,7 +90,7 @@ print_r($result);
 //"detailedInfo":"Україна, 02099, Полтавська, Полтавський, Полтава, Шевченка, 51, 20","country":"UA"}
 ```
 
-### editAddress($id, $data = array()) ###
+### [editAddress($id, $data = array())](#editAddress) ###
 ```php
 <?php
 use Ukrpochta\Pochta;
@@ -471,7 +471,7 @@ $ukrpochta->createForm103('ID_GROUP', 'TOKEN_COUNTERPARTY', __DIR__ . '/file.pdf
 
 ![Example PDF 2](https://i.imgur.com/O5MRATj.png)
 
-### deliveryPrice($data = array()) ###
+### [deliveryPrice($data = array())](#deliveryPrice) ###
 
 ```php
 <?php
