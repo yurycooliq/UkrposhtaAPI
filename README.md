@@ -18,48 +18,50 @@ PHP класс для работы с API Укрпочты
 composer require jackmartin/ukrpochta
 ```
 
-# Библиотеки 
+# Библиотеки
 
 1. [Guzzle](https://github.com/guzzle/guzzle)
 
 # Методы API
 
 1. Создать адрес
-	* [createAddress](https://github.com/martinjack/UkrpochtaAPI#createaddressdata--array)
+	* [createAddress](https://github.com/yurycooliq/UkrpochtaAPI#createaddressdata--array)
 2. Редактировать адрес
-	* [editAddress](https://github.com/martinjack/UkrpochtaAPI#editaddressid-data--array)
+	* [editAddress](https://github.com/yurycooliq/UkrpochtaAPI#editaddressid-data--array)
 3. Показать адрес по ID
-	* [getAddress](https://github.com/martinjack/UkrpochtaAPI#getaddressid) 
+	* [getAddress](https://github.com/yurycooliq/UkrpochtaAPI#getaddressid)
 4. Создать нового клиента
-	* [createClient](https://github.com/martinjack/UkrpochtaAPI#createclienttoken-data--array)
+	* [createClient](https://github.com/yurycooliq/UkrpochtaAPI#createclienttoken-data--array)
 5. Редактировать клиента
-    * [editClient](https://github.com/martinjack/UkrpochtaAPI#editclientid-token-data--array)
+    * [editClient](https://github.com/yurycooliq/UkrpochtaAPI#editclientid-token-data--array)
 6. Получить список клиентов
-    * [clientsList](https://github.com/martinjack/UkrpochtaAPI#clientslisttoken)
+    * [clientsList](https://github.com/yurycooliq/UkrpochtaAPI#clientslisttoken)
 7. Получить клиента по ID или ExternalID
-    * [getClient](https://github.com/martinjack/UkrpochtaAPI#getclienttoken-id--0-extid--0-type--true)
+    * [getClient](https://github.com/yurycooliq/UkrpochtaAPI#getclienttoken-id--0-extid--0-type--true)
 8. Создать группу отправлений
-    * [createGroup](https://github.com/martinjack/UkrpochtaAPI#creategroupdata--array)
+    * [createGroup](https://github.com/yurycooliq/UkrpochtaAPI#creategroupdata--array)
 9. Редактирование группы отправлений
-    * [editGroup](https://github.com/martinjack/UkrpochtaAPI#editgrouptoken-id-data--array)
+    * [editGroup](https://github.com/yurycooliq/UkrpochtaAPI#editgrouptoken-id-data--array)
 10. Получить список групп отправлений
-    * [groupList](https://github.com/martinjack/UkrpochtaAPI#grouplisttoken)
+    * [groupList](https://github.com/yurycooliq/UkrpochtaAPI#grouplisttoken)
 11. Получить группу отправлений по ID
-    * [getGroup](https://github.com/martinjack/UkrpochtaAPI#getgroupid)
+    * [getGroup](https://github.com/yurycooliq/UkrpochtaAPI#getgroupid)
 12. Создать новую посылку
-    * [createParcel](https://github.com/martinjack/UkrpochtaAPI#createparceltoken-data--array)
+    * [createParcel](https://github.com/yurycooliq/UkrpochtaAPI#createparceltoken-data--array)
 13. Редактировать посылку
-    * [editParcel](https://github.com/martinjack/UkrpochtaAPI#editparcelid-token-data--array)
+    * [editParcel](https://github.com/yurycooliq/UkrpochtaAPI#editparcelid-token-data--array)
 14. Получить список почтовых отправлений
-    * [parcelList](https://github.com/martinjack/UkrpochtaAPI#parcellisttoken)
+    * [parcelList](https://github.com/yurycooliq/UkrpochtaAPI#parcellisttoken)
 15. Получить почтовое отправление по ID
-    * [getParcel](https://github.com/martinjack/UkrpochtaAPI#getparcelid-token-type--true)
+    * [getParcel](https://github.com/yurycooliq/UkrpochtaAPI#getparcelid-token-type--true)
 16. Удалить почтовое отправление с группы
-    * [delParcelGroup](https://github.com/martinjack/UkrpochtaAPI#delparcelgroupid-token)
+    * [delParcelGroup](https://github.com/yurycooliq/UkrpochtaAPI#delparcelgroupid-token)
 17. Создать форму в PDF формате
-    * [createForm](https://github.com/martinjack/UkrpochtaAPI#createformid-token-path-type--true)
+    * [createForm](https://github.com/yurycooliq/UkrpochtaAPI#createformid-token-path-type--true)
 18. Создать форму 103 в PDF формате
-    * [createForm103](https://github.com/martinjack/UkrpochtaAPI#createform103id-token-path)
+    * [createForm103](https://github.com/yurycooliq/UkrpochtaAPI#createform103id-token-path)
+19. Стоимость доставки по Украине
+    * [deliveryPrice](#deliveryPrice-data--array)
 
 # Примеры
 
@@ -468,3 +470,29 @@ $ukrpochta->createForm103('ID_GROUP', 'TOKEN_COUNTERPARTY', __DIR__ . '/file.pdf
 ```
 
 ![Example PDF 2](https://i.imgur.com/O5MRATj.png)
+
+### deliveryPrice($data = array()) ###
+
+```php
+<?php
+use Ukrpochta\Pochta;
+
+include __DIR__ . '/vendor/autoload.php';
+$ukrpochta = new Pochta('API_KEY');
+
+$result = $ukrpochta->deliveryPrice([
+    'weight' => 1000,
+    'length' => 55,
+    'addressFrom' => [
+        'postcode' => '03134'
+    ],
+    'addressTo' => [
+        'postcode' => '62404'
+    ],
+    'type' => 'EXPRESS',
+    'deliveryType' => 'W2W',
+    'declaredPrice' => 300,
+]);
+print_r($result);
+//"{"deliveryPrice":35.00,"rawDeliveryPrice":35.00,"calculationDescription":"price for the weight=0.00; tariff (EXPRESS, COUNTRY, 1000 g, 55 cm)=35.00; countryside=0.00; declared price surcharge=0.00","parcels":null,"validate":true,"addressFrom":{"postcode":"03134","conglomerationPostcode":null},"addressTo":{"postcode":"62404","conglomerationPostcode":null},"type":"EXPRESS","deliveryType":"W2W","weight":1000,"length":55,"width":0,"height":0,"declaredPrice":300,"declaredPriceSurcharge":0.00,"discounts":null,"tariffToken":null,"surchargeTariffToken":null,"lengthOverpayRatio":null,"measurablesTotalWeight":0,"measurablesMaxLength":0,"measurablesMaxWidth":0,"measurablesMaxHeight":0,"sms":false,"recommended":false,"documentBack":false}"
+```

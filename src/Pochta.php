@@ -458,4 +458,14 @@ class Pochta
             $this->savePDF($pdf, $path);
         }
     }
+    /**
+     *  Calculate the cost of delivery within Ukraine.
+     *
+     *  @param array $data PAYLOAD
+     *  @return string
+     **/
+    public function deliveryPrice($data = [])
+    {
+        return $this->requestData('domestic/delivery-price', $data);
+    }
 }

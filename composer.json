@@ -1,6 +1,6 @@
 {
-    "name": "jackmartin/ukrpochta",
-    "description": "Ukrpochta API",
+    "name": "yurycooliq/ukrpochta",
+    "description": "Ukrpochta API (forked from https://github.com/martinjack/UkrposhtaAPI)",
     "keywords": ["php", "ukrpochta"],
     "type": "library",
     "license": "MIT",
@@ -8,6 +8,10 @@
         {
             "name": "Jack Martin",
             "email": "killfess@gmail.com"
+        },
+        {
+            "name": "Yury Cooliq",
+            "email": "yurycooliq@gmail.com"
         }
     ],
     "autoload" : {
