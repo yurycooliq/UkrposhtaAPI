@@ -1,5 +1,5 @@
 {
-    "name": "yurycooliq/ukrpochta",
+    "name": "yurycooliq/ukrposhta-php",
     "description": "Ukrpochta API (forked from https://github.com/martinjack/UkrposhtaAPI)",
     "keywords": ["php", "ukrpochta"],
     "type": "library",

@@ -13,7 +13,7 @@ PHP класс для работы с API Укрпочты. Форкнуто с 
 
 # Composer
 ```bash
-composer require yurycooliq/ukrpochta
+composer require yurycooliq/ukrposhta-php
 ```
 
 # Список методов
