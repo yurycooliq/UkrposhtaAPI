@@ -1,71 +1,45 @@
-# Описание 
+# Описание
 
-PHP класс для работы с API Укрпочты
-
-[![Latest Stable Version](https://poser.pugx.org/jackmartin/ukrpochta/v/stable)](https://packagist.org/packages/jackmartin/ukrpochta) [![Total Downloads](https://poser.pugx.org/jackmartin/ukrpochta/downloads)](https://packagist.org/packages/jackmartin/ukrpochta) [![License](https://poser.pugx.org/jackmartin/ukrpochta/license)](https://packagist.org/packages/jackmartin/ukrpochta)
+PHP класс для работы с API Укрпочты. Форкнуто с https://github.com/martinjack/UkrposhtaAPI для добавления новых методов (пока только просчёт доставки).
 
 # Документация
 
-[API documentation v.1.2](https://drive.google.com/open?id=1MqTnJsbgvLKOx8lIbvdUfLwri6N5Dypc)
+[API documentation](https://dev.ukrposhta.ua/documentation)
 
-# Требование
+# Требования
 
-* PHP 5.6 или выше
+* PHP 7+
 * Composer
 
 # Composer
 ```bash
-composer require jackmartin/ukrpochta
+composer require yurycooliq/ukrpochta
 ```
 
-# Библиотеки
-
-1. [Guzzle](https://github.com/guzzle/guzzle)
-
-# Методы API
+# Список методов
 
 1. Создать адрес
-	* [createAddress](#createAddress)
 2. Редактировать адрес
-	* [editAddress](#editAddress)
 3. Показать адрес по ID
-	* [getAddress](#getAddress)
 4. Создать нового клиента
-	* [createClient](#createClient)
 5. Редактировать клиента
-    * [editClient](#editClient)
 6. Получить список клиентов
-    * [clientsList](#clientsList)
 7. Получить клиента по ID или ExternalID
-    * [getClient](#getClient)
 8. Создать группу отправлений
-    * [createGroup](#createGroup)
 9. Редактирование группы отправлений
-    * [editGroup](#editGroup)
 10. Получить список групп отправлений
-    * [groupList](#groupList)
 11. Получить группу отправлений по ID
-    * [getGroup](#getGroup)
 12. Создать новую посылку
-    * [createParcel](#createParcel)
 13. Редактировать посылку
-    * [editParcel](#editParcel)
 14. Получить список почтовых отправлений
-    * [parcelList](#parcelList)
 15. Получить почтовое отправление по ID
-    * [getParcel](#getParcel)
 16. Удалить почтовое отправление с группы
-    * [delParcelGroup](#delParcelGroup)
 17. Создать форму в PDF формате
-    * [createForm](#createForm103)
 18. Создать форму 103 в PDF формате
-    * [createForm103](#createForm103)
-19. Стоимость доставки по Украине
-    * [deliveryPrice](#deliveryPrice)
+19. [NEW] Стоимость доставки по Украине
 
 # Примеры
-
-### [createAddress($data = array())](#createAddress) ###
+## [Создать адрес](#создать-адрес)
 
 ```php
 <?php
@@ -74,7 +48,8 @@ use Ukrpochta\Pochta;
 include __DIR__ . '/vendor/autoload.php';
 $ukrpochta = new Pochta('API_KEY');
 
-$result = $ukrpochta->createAddress(array(
+// Address payload
+$data = [
     'postcode'        => '02099',
     'region'          => 'Полтавська',
     'district'        => 'Полтавський',
@@ -82,7 +57,10 @@ $result = $ukrpochta->createAddress(array(
     'street'          => 'Шевченка',
     'houseNumber'     => '25',
     'apartmentNumber' => '20',
-));
+];
+
+$result = $ukrpochta->createAddress($data);
+
 print_r($result);
 //{"id":123130,"postcode":"02099","region":"Полтавська","district":"Полтавський",
 //"city":"Полтава","street":"Шевченка",
@@ -90,7 +68,7 @@ print_r($result);
 //"detailedInfo":"Україна, 02099, Полтавська, Полтавський, Полтава, Шевченка, 51, 20","country":"UA"}
 ```
 
-### [editAddress($id, $data = array())](#editAddress) ###
+## Редактировать адрес
 ```php
 <?php
 use Ukrpochta\Pochta;
@@ -98,7 +76,11 @@ use Ukrpochta\Pochta;
 include __DIR__ . '/vendor/autoload.php';
 $ukrpochta = new Pochta('API_KEY');
 
-$result = $ukrpochta->editAddress(123130, array(
+// Adress ID
+$address_id = 123130;
+
+// New address data
+$data = [
     'postcode'        => '02050',
     'region'          => 'Полтавська',
     'district'        => 'Полтавський',
@@ -106,7 +88,10 @@ $result = $ukrpochta->editAddress(123130, array(
     'street'          => 'Шевченка',
     'houseNumber'     => '50',
     'apartmentNumber' => '1',
-));
+];
+
+$result = $ukrpochta->editAddress($address_id, $data);
+
 print_r($result);
 //{"id":123130,"postcode":"02099","region":"Полтавська","district":"Полтавський",
 //"city":"Полтава","street":"Шевченка",
@@ -471,7 +456,7 @@ $ukrpochta->createForm103('ID_GROUP', 'TOKEN_COUNTERPARTY', __DIR__ . '/file.pdf
 
 ![Example PDF 2](https://i.imgur.com/O5MRATj.png)
 
-### [deliveryPrice($data = array())](#deliveryPrice) ###
+## Стоимость доставки
 
 ```php
 <?php
@@ -480,7 +465,9 @@ use Ukrpochta\Pochta;
 include __DIR__ . '/vendor/autoload.php';
 $ukrpochta = new Pochta('API_KEY');
 
-$result = $ukrpochta->deliveryPrice([
+// Payload
+// See docs at https://dev.ukrposhta.ua/uploads/API-documentation-28102019.pdf
+$data = [
     'weight' => 1000,
     'length' => 55,
     'addressFrom' => [
@@ -492,7 +479,10 @@ $result = $ukrpochta->deliveryPrice([
     'type' => 'EXPRESS',
     'deliveryType' => 'W2W',
     'declaredPrice' => 300,
-]);
+];
+
+$result = $ukrpochta->deliveryPrice($data);
+
 print_r($result);
 //"{"deliveryPrice":35.00,"rawDeliveryPrice":35.00,"calculationDescription":"price for the weight=0.00; tariff (EXPRESS, COUNTRY, 1000 g, 55 cm)=35.00; countryside=0.00; declared price surcharge=0.00","parcels":null,"validate":true,"addressFrom":{"postcode":"03134","conglomerationPostcode":null},"addressTo":{"postcode":"62404","conglomerationPostcode":null},"type":"EXPRESS","deliveryType":"W2W","weight":1000,"length":55,"width":0,"height":0,"declaredPrice":300,"declaredPriceSurcharge":0.00,"discounts":null,"tariffToken":null,"surchargeTariffToken":null,"lengthOverpayRatio":null,"measurablesTotalWeight":0,"measurablesMaxLength":0,"measurablesMaxWidth":0,"measurablesMaxHeight":0,"sms":false,"recommended":false,"documentBack":false}"
 ```
