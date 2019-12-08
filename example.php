@@ -1,24 +1,21 @@
 <?php
 
-use Ukrpochta\Pochta;
+use Ukrposhta\Ukrposhta;
 
 include __DIR__ . '/vendor/autoload.php';
 
-$ukrpochta = new Pochta('API_KEY');
+$ukrpochta = new Ukrposhta('API_KEY');
 
-$result = $ukrpochta->createAddress(
-    array(
-        'postcode'        => '02099',
-        'region'          => 'Полтавська',
-        'district'        => 'Полтавський',
-        'city'            => 'Полтава',
-        'street'          => 'Шевченка',
-        'houseNumber'     => '51',
-        'apartmentNumber' => '20',
-    )
-);
+$payload = [
+    'postcode'        => '02099',
+    'region'          => 'Полтавська',
+    'district'        => 'Полтавський',
+    'city'            => 'Полтава',
+    'street'          => 'Шевченка',
+    'houseNumber'     => '51',
+    'apartmentNumber' => '20',
+];
 
-// print_r($result);
-//{"id":123175,"postcode":"02099","region":"Полтавська","district":"Полтавський","city":"Полтава",
-//"street":"Шевченка","houseNumber":"51","apartmentNumber":"20","description":null,"countryside":false,
-//"detailedInfo":"Україна, 02099, Полтавська, Полтавський, Полтава, Шевченка, 51, 20","country":"UA"}
+$json_string = $ukrpochta->createAddress($payload);
+
+$result = json_decode($json_string);

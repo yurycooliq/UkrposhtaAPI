@@ -11,13 +11,17 @@ PHP класс для работы с API Укрпочты. Форкнуто с 
 * PHP 7+
 * Composer
 
-# Composer
+# Установка
 ```bash
 composer require yurycooliq/ukrposhta-php
 ```
 
+# Пример использования
+См. example.php.
+
 # Список методов
 
+0. Getting started
 1. Создать адрес
 2. Редактировать адрес
 3. Показать адрес по ID
@@ -39,14 +43,17 @@ composer require yurycooliq/ukrposhta-php
 19. [NEW] Стоимость доставки по Украине
 
 # Примеры
-## [Создать адрес](#создать-адрес)
+## Getting started
 
 ```php
 <?php
-use Ukrpochta\Pochta;
 
+use Ukrposhta\Ukrposhta;
+
+// If you are using framework, like Laravel, skip this line
 include __DIR__ . '/vendor/autoload.php';
-$ukrpochta = new Pochta('API_KEY');
+
+$ukrpochta = new Ukrposhta('API_KEY');
 
 // Address payload
 $data = [
@@ -59,28 +66,33 @@ $data = [
     'apartmentNumber' => '20',
 ];
 
-$result = $ukrpochta->createAddress($data);
+// Get response in json
+$json_string = $ukrpochta->createAddress($data);
 
-print_r($result);
-//{"id":123130,"postcode":"02099","region":"Полтавська","district":"Полтавський",
-//"city":"Полтава","street":"Шевченка",
-//"houseNumber":"51","apartmentNumber":"20","description":null,"countryside":false,
-//"detailedInfo":"Україна, 02099, Полтавська, Полтавський, Полтава, Шевченка, 51, 20","country":"UA"}
+// Decode it
+$result = json_decode($json_string);
+
+// Example of use
+print_r($result->id); // 123130
+print_r($result->postcode); // "02099"
+print_r($result->country); // "UA"
+```
+## Создать адрес
+```php
+$ukrpochta->createAddress([
+    'postcode'        => '02099',
+    'region'          => 'Полтавська',
+    'district'        => 'Полтавський',
+    'city'            => 'Полтава',
+    'street'          => 'Шевченка',
+    'houseNumber'     => '25',
+    'apartmentNumber' => '20',
+]);
 ```
 
 ## Редактировать адрес
 ```php
-<?php
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-$ukrpochta = new Pochta('API_KEY');
-
-// Adress ID
-$address_id = 123130;
-
-// New address data
-$data = [
+$ukrpochta->editAddress(123130, [
     'postcode'        => '02050',
     'region'          => 'Полтавська',
     'district'        => 'Полтавський',
@@ -88,42 +100,17 @@ $data = [
     'street'          => 'Шевченка',
     'houseNumber'     => '50',
     'apartmentNumber' => '1',
-];
-
-$result = $ukrpochta->editAddress($address_id, $data);
-
-print_r($result);
-//{"id":123130,"postcode":"02099","region":"Полтавська","district":"Полтавський",
-//"city":"Полтава","street":"Шевченка",
-//"houseNumber":"51","apartmentNumber":"20","description":null,"countryside":false,
-//"detailedInfo":"Україна, 02099, Полтавська, Полтавський, Полтава, Шевченка, 51, 20","country":"UA"}
+]);
 ```
 
-### getAddress($id) ###
+## Показать адрес по ID
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-
-$result = $ukrpochta->getAddress(123130);
-print_r($result);
+$ukrpochta->getAddress(123130);
 ```
 
 ### createClient($token, $data = array()) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-
-$result = $ukrpochta->createClient('TOKEN COUNTERPARTY', array(
+$ukrpochta->createClient('TOKEN COUNTERPARTY', array(
     'name'                     => 'ФОП «Діскорд',
     'uniqueRegistrationNumber' => '32855961',
     'externalId'               => '12345678',
@@ -133,20 +120,11 @@ $result = $ukrpochta->createClient('TOKEN COUNTERPARTY', array(
     'bankCode'                 => '612456',
     'bankAccount'              => '12345684'
 ));
-print_r($result);
-``` 
+```
 
 ### editClient($id, $token, $data = array()) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-
-$result = $ukrpochta->editClient('UUID_CLIENT', 'TOKEN_COUNTERPARTY', array(
+$ukrpochta->editClient('UUID_CLIENT', 'TOKEN_COUNTERPARTY', array(
     'lastName'                 => 'Петрик',
     'firstName'                => 'Иван',
     'middleName'               => 'Васильович',
@@ -157,112 +135,51 @@ $result = $ukrpochta->editClient('UUID_CLIENT', 'TOKEN_COUNTERPARTY', array(
     'discount'                 => 24,
     'bankCode'                 => 254,
 ));
-print_r($result);
 ```
 
 ### clientsList($token) ###
 ```php
-<?php
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->clientsList('TOKEN_COUNTERPARTY');
-print_r($result);
+$ukrpochta->clientsList('TOKEN_COUNTERPARTY');
 ```
 
 ### getClient($token, $id = 0, $extID = 0, $type = true) ###
 ```php
-<?php
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->getClient('TOKEN_COUNTERPARTY', 'ID_CLIENT');
-print_r($result);
+$ukrpochta->getClient('TOKEN_COUNTERPARTY', 'ID_CLIENT');
 ```
 
 ```php
-<?php
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->getClient('TOKEN_COUNTERPARTY', '', 'externalId_CLIENT', false);
-print_r($result);
+$ukrpochta->getClient('TOKEN_COUNTERPARTY', '', 'externalId_CLIENT', false);
 ```
 
 ### createGroup($data = array()) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-
-$result = $ukrpochta->createGroup('TOKEN_COUNTERPARTY', array(
+$ukrpochta->createGroup('TOKEN_COUNTERPARTY', array(
     'name'             => 'group1',
     'counterpartyUuid' => 'UUID_COUNTERPARTY',
 ));
-print_r($result);
 ```
 
 ### editGroup($token, $id, data = array()) ###
 ```php
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->editGroup('TOKEN_COUNTERPARTY', 'UUID_GROUP', array(
+$ukrpochta->editGroup('TOKEN_COUNTERPARTY', 'UUID_GROUP', array(
     'name'             => 'group2',
     'counterpartyUuid' => 'UUID_COUNTERPARTY',
 ));
-print_r($result);
 ```
 
 ### groupList($token) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->groupList('TOKEN_COUNTERPARTY');
-print_r($result);
+$ukrpochta->groupList('TOKEN_COUNTERPARTY');
 ```
 
 ### getGroup($id) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->getGroup('UUID_GROUP', 'UUID_COUNTERPARTY');
-print_r($result);
+$ukrpochta->getGroup('UUID_GROUP', 'UUID_COUNTERPARTY');
 ```
 
 ### createParcel($token, $data = array()) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-
-$result = $ukrpochta->createParcel('ba5378df-985e-49c5-9cf3-d222fa60aa68', array(
+$ukrpochta->createParcel('ba5378df-985e-49c5-9cf3-d222fa60aa68', array(
     'sender'            => array(
         'name'                     => 'ПРАТ Иван Движок',
         'firstName'                => '',
@@ -306,20 +223,11 @@ $result = $ukrpochta->createParcel('ba5378df-985e-49c5-9cf3-d222fa60aa68', array
         ),
     ),
 ));
-print_r($result);
 ```
 
 ### editParcel($id, $token, $data = array()) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-
-$result = $ukrpochta->editParcel('ID_PARCEL', 'TOKEN_COUNTERPARTY', array(
+$ukrpochta->editParcel('ID_PARCEL', 'TOKEN_COUNTERPARTY', array(
     'sender'            => array(
         'name'                     => 'ПРАТ Иван Движок',
         'firstName'                => '',
@@ -363,80 +271,32 @@ $result = $ukrpochta->editParcel('ID_PARCEL', 'TOKEN_COUNTERPARTY', array(
         ),
     ),
 ));
-print_r($result);
 ```
 
 ### parcelList($token) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->parcelList('TOKEN_COUNTERPARTY');
-print_r($result);
+$ukrpochta->parcelList('TOKEN_COUNTERPARTY');
 ```
 
 ### getParcel($id, $token, $type = true) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->getParcel('ID_PARCEL', 'TOKEN_COUNTERPARTY');
-print_r($result);
+$ukrpochta->getParcel('ID_PARCEL', 'TOKEN_COUNTERPARTY');
 ```
 
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->getParcel('ID_SENDER', 'TOKEN_COUNTERPARTY');
-print_r($result);
+$ukrpochta->getParcel('ID_SENDER', 'TOKEN_COUNTERPARTY');
 ```
 ### delParcelGroup($id, $token) ###
 ```php
-<?php
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-$result = $ukrpochta->delParcelGroup('ID_PARCEL', 'ID_GROUP');
-print_r($result);
+$ukrpochta->delParcelGroup('ID_PARCEL', 'ID_GROUP');
 ```
 
 ### createForm($id, $token, $path, $type = true) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-
 $ukrpochta->createForm('ID_PARCEL', 'TOKEN_COUNTERPARTY', __DIR__ . '/file.pdf');
 ```
 
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
-
 $ukrpochta->createForm('ID_GROUP', 'TOKEN_COUNTERPARTY', __DIR__ . '/file.pdf', false);
 ```
 
@@ -444,13 +304,6 @@ $ukrpochta->createForm('ID_GROUP', 'TOKEN_COUNTERPARTY', __DIR__ . '/file.pdf', 
 
 ### createForm103($id, $token, $path) ###
 ```php
-<?php
-
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-
-$ukrpochta = new Pochta('API_KEY');
 $ukrpochta->createForm103('ID_GROUP', 'TOKEN_COUNTERPARTY', __DIR__ . '/file.pdf');
 ```
 
@@ -459,15 +312,7 @@ $ukrpochta->createForm103('ID_GROUP', 'TOKEN_COUNTERPARTY', __DIR__ . '/file.pdf
 ## Стоимость доставки
 
 ```php
-<?php
-use Ukrpochta\Pochta;
-
-include __DIR__ . '/vendor/autoload.php';
-$ukrpochta = new Pochta('API_KEY');
-
-// Payload
-// See docs at https://dev.ukrposhta.ua/uploads/API-documentation-28102019.pdf
-$data = [
+$ukrpochta->deliveryPrice([
     'weight' => 1000,
     'length' => 55,
     'addressFrom' => [
@@ -479,10 +324,5 @@ $data = [
     'type' => 'EXPRESS',
     'deliveryType' => 'W2W',
     'declaredPrice' => 300,
-];
-
-$result = $ukrpochta->deliveryPrice($data);
-
-print_r($result);
-//"{"deliveryPrice":35.00,"rawDeliveryPrice":35.00,"calculationDescription":"price for the weight=0.00; tariff (EXPRESS, COUNTRY, 1000 g, 55 cm)=35.00; countryside=0.00; declared price surcharge=0.00","parcels":null,"validate":true,"addressFrom":{"postcode":"03134","conglomerationPostcode":null},"addressTo":{"postcode":"62404","conglomerationPostcode":null},"type":"EXPRESS","deliveryType":"W2W","weight":1000,"length":55,"width":0,"height":0,"declaredPrice":300,"declaredPriceSurcharge":0.00,"discounts":null,"tariffToken":null,"surchargeTariffToken":null,"lengthOverpayRatio":null,"measurablesTotalWeight":0,"measurablesMaxLength":0,"measurablesMaxWidth":0,"measurablesMaxHeight":0,"sms":false,"recommended":false,"documentBack":false}"
+]);
 ```

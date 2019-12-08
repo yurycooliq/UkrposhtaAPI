@@ -1,7 +1,8 @@
 {
     "name": "yurycooliq/ukrposhta-php",
     "description": "Ukrpochta API (forked from https://github.com/martinjack/UkrposhtaAPI)",
-    "keywords": ["php", "ukrpochta"],
+    "version": "v1.0.1",
+    "keywords": ["php", "ukrpochta", "api"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -16,11 +17,11 @@
     ],
     "autoload" : {
     	"psr-4" : {
-    		"Ukrpochta\\" : "src/"
+    		"Ukrposhta\\" : "src/"
     	}
     },
     "require": {
-        "php": ">=7.0",
+        "php": "^7.0",
     	"guzzlehttp/guzzle": "^6.3"
     }
 }
