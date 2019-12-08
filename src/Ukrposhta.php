@@ -2,7 +2,7 @@
 /**
  *    module: Ukrpochta 0.0.1
  *    author: Evgen Kitonin
- *    version: 1.0.1
+ *    version: 1.0.2
  *    create: 06.10.2017
  **/
 namespace Ukrpochta;
@@ -10,7 +10,7 @@ namespace Ukrpochta;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
-class Pochta
+class Ukrposhta
 {
     /**
      *    VERSION API

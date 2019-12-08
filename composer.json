@@ -1,7 +1,7 @@
 {
     "name": "yurycooliq/ukrposhta-php",
     "description": "Ukrpochta API (forked from https://github.com/martinjack/UkrposhtaAPI)",
-    "version": "v1.0.1",
+    "version": "v1.0.2",
     "keywords": ["php", "ukrpochta", "api"],
     "type": "library",
     "license": "MIT",
