@@ -5,7 +5,7 @@
  *    version: 1.0.2
  *    create: 06.10.2017
  **/
-namespace Ukrpochta;
+namespace Ukrposhta;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
