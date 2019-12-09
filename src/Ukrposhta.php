@@ -245,19 +245,6 @@ class Ukrposhta
         return $this->requestData('clients', $data, $id . '/?token=' . $token, 'put');
     }
     /**
-     *    ОТРИМАТИ СПИСОК КЛІЄНТІВ
-     *    ПОЛУЧИТЬ СПИСОК КЛИЕНТОВ
-     *
-     *    @param     string     $token     TOKEN COUNTERPARTY
-     *
-     *    @return string
-     *
-     **/
-    public function clientsList($token)
-    {
-        return $this->requestData('clients', '', '/?token=' . $token, 'get');
-    }
-    /**
      *    ЗНАЙТИ КЛІЄНТА ПО ID
      *    НАЙТИ КЛИЕНТА ПО ID
      *

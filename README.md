@@ -27,7 +27,6 @@ composer require yurycooliq/ukrposhta-php
 3. Показать адрес по ID
 4. Создать нового клиента
 5. Редактировать клиента
-6. Получить список клиентов
 7. Получить клиента по ID или ExternalID
 8. Создать группу отправлений
 9. Редактирование группы отправлений
@@ -135,11 +134,6 @@ $ukrpochta->editClient('UUID_CLIENT', 'TOKEN_COUNTERPARTY', array(
     'discount'                 => 24,
     'bankCode'                 => 254,
 ));
-```
-
-### clientsList($token) ###
-```php
-$ukrpochta->clientsList('TOKEN_COUNTERPARTY');
 ```
 
 ### getClient($token, $id = 0, $extID = 0, $type = true) ###
